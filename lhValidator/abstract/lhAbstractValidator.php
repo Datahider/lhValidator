@@ -13,8 +13,10 @@
  */
 require_once LH_LIB_ROOT . 'lhValidator/interface/lhValidatorInterface.php';
 abstract class lhAbstractValidator implements lhValidatorInterface {
-    protected $text;
-    protected $more_info;
+    protected $text;            // Сохраняет текст с прошлого вызова, далее можно вызывать без параметров.
+    protected $more_info;       // Сохраняет расширенную информацию о валидации 
+                                //(что еще может сказать валидатор о валидируемой строке
+                                // например страна если валидируем номер телефона) 
 
 
     public function __construct($text=null) {

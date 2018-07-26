@@ -38,7 +38,7 @@ class lhEmailValidator extends lhAbstractValidator {
             if ($domain_ok) {
                 $this->more_info['domain'] = $split[1];
             } else {
-                $this->addErrorInfo("Domain $split[1] not found in DNS.");
+                $this->addErrorInfo("Domain \"$split[1]\" not found in DNS.");
             }
             if ($user_ok) {
                 $this->more_info['user'] = $split[0];
