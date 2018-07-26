@@ -11,6 +11,11 @@
  *
  * @author user
  */
-class loPhoneValidator {
-    //put your code here
+class lhPhoneValidator extends lhAbstractValidator {
+    
+    public function validate($text=null) {
+        $text = trim($text);
+        // Начнем замены
+
+    }
 }
