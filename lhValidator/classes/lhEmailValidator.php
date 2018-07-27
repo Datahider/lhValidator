@@ -49,7 +49,4 @@ class lhEmailValidator extends lhAbstractValidator {
         return $this->getResult();
     }
     
-    public function moreInfo() {
-        return $this->more_info;
-    }
 }

@@ -35,4 +35,7 @@ abstract class lhAbstractValidator implements lhValidatorInterface {
     protected function getResult() {
         return $this->more_info['result'];
     }
+    public function moreInfo() {
+        return $this->more_info;
+    }
 }

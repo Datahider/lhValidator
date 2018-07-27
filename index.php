@@ -28,7 +28,7 @@ foreach ($strings as $key => $value) {
     if ($email_validator->validate($value[0]) == $value[1]) {
         $more_info = $email_validator->moreInfo();
         if ( ($more_info['user'] == $value[2]) && ($more_info['domain'] == $value[3]) ) {
-            echo $key.'.......... ok - ' . $more_info['error_info'] . "\n"; 
+            echo $key.'........... ok - ' . $more_info['error_info'] . "\n"; 
         } else {
             echo $key.': MORE_INFO FAIL!!! - ' . $more_info['error_info'] . "\n";
         }
@@ -55,9 +55,9 @@ $strings = [
 ];
 
 foreach ($strings as $key => $value) {
-    if ($email_validator->validate($value[0]) == $value[1]) {
-        echo $key.'.......... ok - ' . "\n"; 
+    if ($phone_validator->validate($value[0]) == $value[1]) {
+        echo $key.'........... ok' . "\n"; 
     } else {
-        echo $key.':  VALIDATE FAIL!!! - ' . "\n";
+        echo $key.': ######### FAIL!!!' . "\n";
     }
 }
