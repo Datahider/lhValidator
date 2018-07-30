@@ -11,7 +11,7 @@
  *
  * @author Peter Datahider
  */
-require_once LH_LIB_ROOT . 'lhValidator/interface/lhValidatorInterface.php';
+require_once __DIR__ . '/../interface/lhValidatorInterface.php';
 abstract class lhAbstractValidator implements lhValidatorInterface {
     protected $text;            // Сохраняет текст с прошлого вызова, далее можно вызывать без параметров.
     protected $more_info;       // Сохраняет расширенную информацию о валидации 

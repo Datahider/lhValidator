@@ -11,7 +11,7 @@
  *
  * @author user
  */
-require_once LH_LIB_ROOT . 'lhValidator/abstract/lhAbstractValidator.php';
+require_once __DIR__ . '/../abstract/lhAbstractValidator.php';
 
 class lhEmailValidator extends lhAbstractValidator {
     static $debug = false;
