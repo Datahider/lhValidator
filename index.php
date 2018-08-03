@@ -9,10 +9,11 @@
 //mb_internal_encoding("UTF-8");
 echo "Тестирование lhValidator\n";
 
-define('LH_LIB_ROOT', './');
+define('LH_LIB_ROOT', '/Users/user/MyData/phplib');
+require_once LH_LIB_ROOT . '/lhRuNames/classes/lhRuNames.php';
 
 echo "Проверка класса lhEmailValidator\n";
-require_once LH_LIB_ROOT . 'lhValidator/classes/lhEmailValidator.php';
+require_once __DIR__ . '/lhValidator/classes/lhEmailValidator.php';
 
 $email_validator = new lhEmailValidator();
 
@@ -37,9 +38,29 @@ foreach ($strings as $key => $value) {
     }
 }
 
+echo "Проверка класса lhNameValidator\n";
+require_once __DIR__ . '/lhValidator/classes/lhNameValidator.php';
+
+$name_validator = new lhNameValidator();
+
+$names = [
+    ["Петя", true],
+    ["Марсель", true],
+    ["Бензин", false],
+    ['василий', true]
+];
+foreach ($names as $key => $value) {
+    if ($name_validator->validate($value[0]) == $value[1]) {
+        echo $key.'........... ok' . "\n"; 
+    } else {
+        echo $key.': ######### FAIL!!!' . "\n";
+        die();
+    }
+}
+
 
 echo "Проверка класса lhPhoneValidator\n";
-require_once LH_LIB_ROOT . 'lhValidator/classes/lhPhoneValidator.php';
+require_once __DIR__ . '/lhValidator/classes/lhPhoneValidator.php';
 
 $phone_validator = new lhPhoneValidator();
 
