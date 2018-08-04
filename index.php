@@ -38,47 +38,76 @@ foreach ($strings as $key => $value) {
     }
 }
 
-echo "Проверка класса lhNameValidator\n";
+echo "Проверка класса lhNameValidator";
 require_once __DIR__ . '/lhValidator/classes/lhNameValidator.php';
 
 $name_validator = new lhNameValidator();
 
 $names = [
-    ["Петя", true],
-    ["Марсель", true],
-    ["Бензин", false],
-    ['василий', true]
+    ["Петя", 'true', 'true', "Петр", lhAbstractRuNames::$gender_male, 1],
+    ["Марсель", 'true', 'true', "Марсель", lhAbstractRuNames::$gender_male, 1],
+    ["Бензин", 'false', 'false', "", null, 0],
+    ['василий', 'true', 'true', "Василий", lhAbstractRuNames::$gender_male, 1],
+    ["Саша", 'false', 'true', "Александр Александра", null, 2],
+    ["Слава", 'false', 'true', "Вячеслав Ростислав Ярослав Слава", null, 4],
+    ['Рита', 'false', 'true', "Маргарита Рита", lhAbstractRuNames::$gender_female, 2]
 ];
-foreach ($names as $key => $value) {
-    if ($name_validator->validate($value[0]) == $value[1]) {
-        echo $key.'........... ok' . "\n"; 
-    } else {
-        echo $key.': ######### FAIL!!!' . "\n";
+foreach ($names as $value) {
+    $res = $name_validator->validate($value[0]) ? 'true' : 'false';
+    if ( $res != $value[1]) {
+        echo "$value[0] - FAIL!!! Ожидалось \"$value[1]\", получено \"$res\"\n";
         die();
     }
+    echo '.';
+    $info = $name_validator->moreInfo();
+    $is_known = $info['is_known'] ? 'true' : 'false';
+    if ( $is_known != $value[2] ) {
+        echo "FAIL!!! Ожидалось \"$value[2]\", получено \"$is_known\"\n";
+        die();
+    }
+    echo '.';
+    $found = $info['found_names'];
+    if ($found != $value[3]) {
+        echo "FAIL!!! Ожидалось \"$value[3]\", получено \"$found\"\n";
+        die();
+    }
+    echo '.';
+    $gender = $info['gender'];
+    if ($gender != $value[4]) {
+        echo "FAIL!!! Ожидалось \"$value[4]\", получено \"$gender\"\n";
+        die();
+    }
+    echo '.';
+    $found = $info['found'];
+    if ($found != $value[5]) {
+        echo "FAIL!!! Ожидалось \"$value[5]\", получено \"$found\"\n";
+        die();
+    }
+    echo '.';
 }
+echo "Ok\n";
 
-
-echo "Проверка класса lhPhoneValidator\n";
+echo "Проверка класса lhPhoneValidator";
 require_once __DIR__ . '/lhValidator/classes/lhPhoneValidator.php';
 
 $phone_validator = new lhPhoneValidator();
 
 $strings = [
-    [" +79262261868", true],
-    ["89262261868   ", true],
-    ["9262261868", true],
-    ["(926) 226-18-68", true],
-    ["+7 () 92622-6-1868", false],
-    ["+7 (92622) 6-1868", true],
-    ["+7_92622-6-1868", false],
-    ["+7 (s231)2-6-1868", false],
+    [" +79262261868", 'true'],
+    ["89262261868   ", 'true'],
+    ["9262261868", 'true'],
+    ["(926) 226-18-68", 'true'],
+    ["+7 () 92622-6-1868", 'false'],
+    ["+7 (92622) 6-1868", 'true'],
+    ["+7_92622-6-1868", 'false'],
+    ["+7 (s231)2-6-1868", 'false'],
 ];
 
 foreach ($strings as $key => $value) {
-    if ($phone_validator->validate($value[0]) == $value[1]) {
-        echo $key.'........... ok' . "\n"; 
-    } else {
-        echo $key.': ######### FAIL!!!' . "\n";
+    $result = $phone_validator->validate($value[0]) ? 'true' : 'false';
+    if ($result != $value[1]) {
+        echo "$value[0] - FAIL!!! - Ожидалось \"$value[1]\", получено \"$result\"\n";
+        die();
     }
+    echo '.';
 }

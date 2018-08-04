@@ -26,14 +26,26 @@ class lhNameValidator extends lhAbstractValidator {
         }
         $n = new lhRuNames();
         $this->setResult(false);
-        foreach (preg_split("/\s+/", $text) as $word) {
-            try { $full = $n->full($word); } catch (Exception $e) { $full = false; }
-            if ($full) {
+        foreach (preg_split("/\s+/u", $text) as $word) {
+            try { 
+                $full = $n->full($word); 
                 $this->setResult(true);
+            } 
+            catch (Exception $e) { 
+                $full = false; 
+            }
+            if ($n->is_known()) {
                 $this->more_info['full'] = $full;
                 $this->more_info['gender'] = $n->gender();
                 $this->more_info['is_known'] = $n->is_known();
-                $this->setResult(true);
+                $this->more_info['found_names'] = $n->foundNames();
+                $count = 0;
+                foreach (preg_split("/\s+/u", $this->more_info['found_names']) as $name) {
+                    $this->more_info['found'.$count] = $name;
+                    $count++;
+                }
+                $this->more_info['found'] = $count;
+                $this->setResult((bool)$full);
                 return $this->getResult();
             }
         }
