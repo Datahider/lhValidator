@@ -25,7 +25,7 @@ abstract class lhAbstractValidator implements lhValidatorInterface {
     }
     
     protected function addErrorInfo($error_info) {
-        $this->more_info['error_info'] = !$this->more_info['error_info'] ? $error_info : $this->more_info['error_info'].' '.$error_info;
+        $this->more_info['error_info'] = !isset($this->more_info['error_info']) || !$more_info['error_info'] ? $error_info : $this->more_info['error_info'].' '.$error_info;
     }
     
     protected function setResult($param) {

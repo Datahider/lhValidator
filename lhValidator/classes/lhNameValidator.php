@@ -26,6 +26,11 @@ class lhNameValidator extends lhAbstractValidator {
         }
         $n = new lhRuNames();
         $this->setResult(false);
+        $this->more_info['found'] = 0;
+        $this->more_info['found_names'] = '';
+        $this->more_info['full'] = '';
+        $this->more_info['gender'] = null;
+        $this->more_info['is_known'] = false;
         foreach (preg_split("/\s+/u", $text) as $word) {
             try { 
                 $full = $n->full($word); 

@@ -29,7 +29,7 @@ foreach ($strings as $key => $value) {
     if ($email_validator->validate($value[0]) == $value[1]) {
         $more_info = $email_validator->moreInfo();
         if ( ($more_info['user'] == $value[2]) && ($more_info['domain'] == $value[3]) ) {
-            echo $key.'........... ok - ' . $more_info['error_info'] . "\n"; 
+            echo $key.'........... ok - ' . (isset($more_info['error_info']) ? $more_info['error_info'] : '') . "\n"; 
         } else {
             echo $key.': MORE_INFO FAIL!!! - ' . $more_info['error_info'] . "\n";
         }
@@ -55,37 +55,77 @@ $names = [
 foreach ($names as $value) {
     $res = $name_validator->validate($value[0]) ? 'true' : 'false';
     if ( $res != $value[1]) {
-        echo "$value[0] - FAIL!!! Ожидалось \"$value[1]\", получено \"$res\"\n";
+        echo "$value[0] result - FAIL!!! Ожидалось \"$value[1]\", получено \"$res\"\n";
         die();
     }
     echo '.';
     $info = $name_validator->moreInfo();
     $is_known = $info['is_known'] ? 'true' : 'false';
     if ( $is_known != $value[2] ) {
-        echo "FAIL!!! Ожидалось \"$value[2]\", получено \"$is_known\"\n";
+        echo "$value[0] is_known - FAIL!!! Ожидалось \"$value[2]\", получено \"$is_known\"\n";
         die();
     }
     echo '.';
     $found = $info['found_names'];
     if ($found != $value[3]) {
-        echo "FAIL!!! Ожидалось \"$value[3]\", получено \"$found\"\n";
+        echo "$value[0] found_names - FAIL!!! Ожидалось \"$value[3]\", получено \"$found\"\n";
         die();
     }
     echo '.';
     $gender = $info['gender'];
     if ($gender != $value[4]) {
-        echo "FAIL!!! Ожидалось \"$value[4]\", получено \"$gender\"\n";
+        echo "$value[0] gender - FAIL!!! Ожидалось \"$value[4]\", получено \"$gender\"\n";
         die();
     }
     echo '.';
     $found = $info['found'];
     if ($found != $value[5]) {
-        echo "FAIL!!! Ожидалось \"$value[5]\", получено \"$found\"\n";
+        echo "$value[0] found - FAIL!!! Ожидалось \"$value[5]\", получено \"$found\"\n";
         die();
     }
     echo '.';
 }
 echo "Ok\n";
+
+echo "Проверка класса lhFullNameValidator";
+require_once __DIR__ . '/lhValidator/classes/lhFullNameValidator.php';
+
+$name_validator = new lhFullNameValidator();
+
+$names = [
+    ["Петя", 'false'],
+    ["Марсель", 'true', "Марсель", lhAbstractRuNames::$gender_male],
+    ["Бензин", 'false'],
+    ['вася', 'false'],
+    ["Саша", 'false'],
+    ["Слава", 'true', 'Слава', lhAbstractRuNames::$gender_female],
+    ['Рита', 'true', "Рита", lhAbstractRuNames::$gender_female]
+];
+foreach ($names as $value) {
+    $res = $name_validator->validate($value[0]) ? 'true' : 'false';
+    if ( $res != $value[1]) {
+        echo "$value[0] - FAIL!!! Ожидалось \"$value[1]\", получено \"$res\"\n";
+        die();
+    }
+    echo '.';
+    if ($res == 'true') {
+        $info = $name_validator->moreInfo();
+        $found = $info['full'];
+        if ($found != $value[2]) {
+            echo "$value[0] - FAIL!!! Ожидалось \"$value[2]\", получено \"$found\"\n";
+            die();
+        }
+        echo '.';
+        $gender = $info['gender'];
+        if ($gender != $value[3]) {
+            echo "$value[0] - FAIL!!! Ожидалось \"$value[3]\", получено \"$gender\"\n";
+            die();
+        }
+        echo '.';
+    }
+}
+echo "Ok\n";
+
 
 echo "Проверка класса lhPhoneValidator";
 require_once __DIR__ . '/lhValidator/classes/lhPhoneValidator.php';
