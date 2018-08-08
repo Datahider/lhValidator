@@ -127,6 +127,36 @@ foreach ($names as $value) {
 echo "Ok\n";
 
 
+echo "Проверка lhTgBotTokenValidator";
+require_once __DIR__ . '/lhValidator/classes/lhTgBotTokenValidator.php';
+
+$tg = new lhTgBotTokenValidator("asdflj345h345hk345hkh345hkjh345kh345");
+if ($tg->validate()) {
+    echo 'FAIL!!! - Ожидалось "false", получено "true"'."\n";
+    die();
+}
+echo '.';
+
+$token = '541872557:AAGfSzUePVCCdAspdqeyVrwXIbiccg2Cwi4';
+if ($tg->validate($token)) {
+    echo 'FAIL!!! - Ожидалось "true", получено "false"'."\n";
+    die();
+}
+echo '.';
+$more_info = $tg->moreInfo();
+if ($more_info['first_name'] != 'JustForTest') {
+    echo 'FAIL!!! - Ожидалось "JustForTest", получено "'.$more_info['first_name'].'"'."\n";
+    die();
+}
+echo '.';
+if ($more_info['username'] != 'testingbottokenbot') {
+    echo 'FAIL!!! - Ожидалось "testingbottokenbot", получено "'.$more_info['username'].'"'."\n";
+    die();
+}
+echo '.';
+echo "Ok\n";
+
+
 echo "Проверка класса lhPhoneValidator";
 require_once __DIR__ . '/lhValidator/classes/lhPhoneValidator.php';
 
@@ -151,3 +181,4 @@ foreach ($strings as $key => $value) {
     }
     echo '.';
 }
+
