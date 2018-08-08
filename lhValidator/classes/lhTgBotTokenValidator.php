@@ -11,6 +11,8 @@
  *
  * @author user
  */
+require_once __DIR__ . '/../abstract/lhAbstractValidator.php';
+
 class lhTgBotTokenValidator extends lhAbstractValidator{
     
     public function validate($text=null) {
