@@ -144,13 +144,13 @@ if ($tg->validate($token)) {
 }
 echo '.';
 $more_info = $tg->moreInfo();
-if ($more_info['first_name'] != 'JustForTest') {
-    echo 'FAIL!!! - Ожидалось "JustForTest", получено "'.$more_info['first_name'].'"'."\n";
+if ($more_info['first_name'] != 'TestBuddy') {
+    echo 'FAIL!!! - Ожидалось "TestBuddy", получено "'.$more_info['first_name'].'"'."\n";
     die();
 }
 echo '.';
-if ($more_info['username'] != 'testingbottokenbot') {
-    echo 'FAIL!!! - Ожидалось "testingbottokenbot", получено "'.$more_info['username'].'"'."\n";
+if ($more_info['username'] != 'TestBuddyBot') {
+    echo 'FAIL!!! - Ожидалось "TestBuddyBot", получено "'.$more_info['username'].'"'."\n";
     die();
 }
 echo '.';
