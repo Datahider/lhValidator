@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 
+require_once 'secrets.php';
 //mb_internal_encoding("UTF-8");
 echo "Тестирование lhValidator\n";
 
@@ -137,7 +138,6 @@ if ($tg->validate()) {
 }
 echo '.';
 
-$token = '541872557:AAGfSzUePVCCdAspdqeyVrwXIbiccg2Cwi4';
 if ($tg->validate($token)) {
     echo 'FAIL!!! - Ожидалось "true", получено "false"'."\n";
     die();
