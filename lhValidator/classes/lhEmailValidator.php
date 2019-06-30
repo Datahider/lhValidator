@@ -33,6 +33,7 @@ class lhEmailValidator extends lhAbstractValidator {
             $this->setResult(true);
             $this->more_info['domain'] = $split[1];
             $this->more_info['user'] = $split[0];
+            $this->more_info['address'] = $text;
         } else {
             $this->setResult(false);
             if ($domain_ok) {
