@@ -27,7 +27,7 @@ class lhEmailValidator extends lhAbstractValidator {
         $split = split("@", $text, 2);
        
         $user_ok = preg_match("/^[[:alpha:]\d_]([[:alpha:]\d_\-\.]*[[:alpha:]\d_]|)$/", $split[0]);
-        $domain_ok = checkdnsrr($split[1], 'SOA');
+        $domain_ok = checkdnsrr($split[1].'.', 'SOA');
         
         if ($user_ok && $domain_ok) {
             $this->setResult(true);
