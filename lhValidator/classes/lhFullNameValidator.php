@@ -22,7 +22,8 @@ class lhFullNameValidator extends lhAbstractValidator {
             $text = $this->text;
         } else {
             $text = trim($text);
-            $this->text = $text;
+            preg_match("/^(.)(.*)$/u", $text, $matches);
+            $this->text = mb_strtoupper($matches[1], 'UTF-8') . mb_strtolower($matches[2], 'UTF-8');
         }
         $n = new lhRuNames();
         $this->setResult(true);
