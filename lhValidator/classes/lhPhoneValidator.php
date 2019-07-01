@@ -18,7 +18,10 @@ class lhPhoneValidator extends lhAbstractValidator {
     public function validate($text=null) {
         $text = trim($text);
         // Начнем замены
-
+        $this->setResult(true);
+        $this->more_info['phone'] = $text;
+        
+        return $this->getResult();
     }
     
 }
