@@ -167,13 +167,13 @@ $strings = [
     ["89262261868   ", 'true'],
     ["9262261868", 'true'],
     ["(926) 226-18-68", 'true'],
-    ["+7 () 92622-6-1868", 'false'],
+    ["+7 () 92622-6-1868", 'true'],
     ["+7 (92622) 6-1868", 'true'],
     ["+7_92622-6-1868", 'false'],
     ["+7 (s231)2-6-1868", 'false'],
 ];
 
-foreach ($strings as $key => $value) {
+foreach ($strings as $value) {
     $result = $phone_validator->validate($value[0]) ? 'true' : 'false';
     if ($result != $value[1]) {
         echo "$value[0] - FAIL!!! - Ожидалось \"$value[1]\", получено \"$result\"\n";
@@ -181,4 +181,5 @@ foreach ($strings as $key => $value) {
     }
     echo '.';
 }
+echo "Ok\n";
 
