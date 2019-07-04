@@ -183,3 +183,28 @@ foreach ($strings as $value) {
 }
 echo "Ok\n";
 
+echo "Проверка класса lhFakeNameValidator";
+require_once __DIR__ . '/lhValidator/classes/lhFakeNameValidator.php';
+
+$fakename_validator = new lhFakeNameValidator();
+
+$strings = [
+    ["Chf%s", 'true'],
+    ["Андрей_8   ", 'true'],
+    ["Стрембрей", 'false'],
+    ["(Гоша)", 'true'],
+    ["Aaana", 'true'],
+    ["Гоооша", 'true'],
+    ["ЛОпУх", 'false'],
+];
+
+foreach ($strings as $value) {
+    $result = $fakename_validator->validate($value[0]) ? 'true' : 'false';
+    if ($result != $value[1]) {
+        echo "$value[0] - FAIL!!! - Ожидалось \"$value[1]\", получено \"$result\"\n";
+        die();
+    }
+    echo '.';
+}
+echo "Ok\n";
+
