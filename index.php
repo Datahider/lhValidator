@@ -196,6 +196,7 @@ $strings = [
     ["Aaana", 'true'],
     ["Гоооша", 'true'],
     ["ЛОпУх", 'false'],
+    ["Тебе какое дело?", 'false'],
 ];
 
 foreach ($strings as $value) {
