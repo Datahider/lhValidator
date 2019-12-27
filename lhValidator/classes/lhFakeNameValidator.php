@@ -14,7 +14,9 @@
 class lhFakeNameValidator extends lhAbstractValidator {
     
     function validate($text=null) {
-        if (preg_match("/[\!\@\#\$\%\^\&\*\(\)\-\=\+\_\№\"\;\:\?\|\\\\\/\>\<0-9]/u", $text)) {
+        if (preg_match("/[\!\?\.]$/", $text)) {
+            $this->setResult(false);
+        } elseif (preg_match("/[\!\@\#\$\%\^\&\*\(\)\-\=\+\_\№\"\;\:\?\|\\\\\/\>\<0-9]/u", $text)) {
             $this->setResult(true);
         } elseif (preg_match("/(.)\g{-1}\g{-1}/ui", $text)) {
             $this->setResult(true);
