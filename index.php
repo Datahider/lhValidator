@@ -160,8 +160,6 @@ echo "Ok\n";
 echo "Проверка класса lhPhoneValidator";
 require_once __DIR__ . '/lhValidator/classes/lhPhoneValidator.php';
 
-$phone_validator = new lhPhoneValidator();
-
 $strings = [
     [" +79262261868", 'true'],
     ["89262261868   ", 'true'],
@@ -174,7 +172,13 @@ $strings = [
 ];
 
 foreach ($strings as $value) {
-    $result = $phone_validator->validate($value[0]) ? 'true' : 'false';
+    if (!isset($phone_validator )) {
+        // необходимо для тестирования вызова без параметров
+        $phone_validator = new lhPhoneValidator($value[0]);
+        $result = $phone_validator->validate() ? 'true' : 'false';
+    } else {
+        $result = $phone_validator->validate($value[0]) ? 'true' : 'false';
+    }
     if ($result != $value[1]) {
         echo "$value[0] - FAIL!!! - Ожидалось \"$value[1]\", получено \"$result\"\n";
         die();

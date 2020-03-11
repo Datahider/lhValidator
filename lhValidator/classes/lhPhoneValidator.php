@@ -16,6 +16,13 @@ require_once __DIR__ . '/../abstract/lhAbstractValidator.php';
 class lhPhoneValidator extends lhAbstractValidator {
     
     public function validate($text=null) {
+        $this->more_info = [];
+        if ( $text === null ) {
+            $text = $this->text;
+        } else {
+            $text = trim($text);
+            $this->text = $text;
+        }
         // Сначала уберем все допустимые символы из номера
         $digits = preg_replace("/[\s\+\-\(\)]/", '', $text);
         if (preg_match("/^\d{10,11}$/", $digits)) {
