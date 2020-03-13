@@ -52,4 +52,10 @@ class lhEmailValidator extends lhAbstractValidator {
         return $this->getResult();
     }
     
+    public function getValid() {
+        if (!$this->validate()) {
+            throw new Exception("Invalid email address");
+        }
+        return $this->moreInfo()['address'];
+    }
 }

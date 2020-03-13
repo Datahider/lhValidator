@@ -28,11 +28,15 @@ class lhTgBotTokenValidator extends lhAbstractValidator{
                 $result = $data->result->is_bot;
                 $this->more_info['first_name'] = $data->result->first_name;
                 $this->more_info['username'] = $data->result->username;
+                $this->more_info['token'] = $suspect;
+                $this->setResult(true);
+                break;
             } else {
-                $result = false;
                 $this->more_info = [];
+                $this->setResult(false);
             }
         }
+        return $this->getResult();
     }
     
     private function getMe($botapitoken) {
@@ -54,4 +58,10 @@ class lhTgBotTokenValidator extends lhAbstractValidator{
         return false;
     }
     
+    public function getValid() {
+        if (!$this->validate()) {
+            throw new Exception("Invalid Telegram bot token");
+        }
+        return $this->more_info['token'];
+    }
 }

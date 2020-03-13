@@ -44,4 +44,10 @@ class lhFullNameValidator extends lhAbstractValidator {
         return $this->getResult();
     }
     
+    public function getValid() {
+        if (!$this->validate()) {
+            throw new Exception("Invalid full name");
+        }
+        return $this->more_info['full'];
+    }
 }

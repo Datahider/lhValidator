@@ -19,15 +19,16 @@ require_once __DIR__ . '/lhValidator/classes/lhEmailValidator.php';
 $email_validator = new lhEmailValidator();
 
 $strings = [
-    ["  alpha@yandex.ru", true, 'alpha', 'yandex.ru'],
-    ["123@losthost.online   ", true, '123', 'losthost.online'],
+    ["  alpha@yandex.ru", true, 'alpha', 'yandex.ru', "alpha@yandex.ru"],
+    ["123@losthost.online   ", true, '123', 'losthost.online', "123@losthost.online"],
     ["-minus@losthost.online", false, '', 'losthost.online'],
     ["wrong-@losthost.online", false, '', 'losthost.online'],
     ["good@wrong.domain", false, 'good', '']
 ];
 
 foreach ($strings as $key => $value) {
-    if ($email_validator->validate($value[0]) == $value[1]) {
+    $validation_result = $email_validator->validate($value[0]);
+    if ($validation_result == $value[1]) {
         $more_info = $email_validator->moreInfo();
         if ( ($more_info['user'] == $value[2]) && ($more_info['domain'] == $value[3]) ) {
             echo $key.'........... ok - ' . (isset($more_info['error_info']) ? $more_info['error_info'] : '') . "\n"; 
@@ -36,6 +37,19 @@ foreach ($strings as $key => $value) {
         }
     } else {
         echo $key.':  VALIDATE FAIL!!! - ' . $more_info['error_info'] . "\n";
+    }
+    if ($validation_result) {
+        $valid = $email_validator->getValid();
+        if ($value[4] != $valid) {
+            echo "$key: GETVALID FAIL!!! - got $valid, awaiting $value[4]\n";
+        }
+    } else {
+        try {
+            $email_validator->getValid();
+            echo "$key: GETVALID FAIL!!! - must throw exception\n";
+        } catch (Exception $ex) {
+
+        }
     }
 }
 
@@ -85,6 +99,26 @@ foreach ($names as $value) {
         die();
     }
     echo '.';
+    if ($res == 'true') {
+        try {
+            $valid = $name_validator->getValid();
+        } catch (Exception $e) {
+            echo $name_validator->moreInfo()['found_names'];
+            throw new Exception("$value[0] throws: ".$e->getMessage());
+        }
+        if ($valid != $value[3]) {
+            throw new Exception("got valid=$valid, awaiting $value[3]");
+        }
+        echo '.';
+    } else {
+        try {
+            $name_validator->getValid();
+            throw new Exception("Must throw at prev line", -907);
+        } catch (Exception $ex) {
+            if ($ex->getCode() == -907) throw $ex;
+        }
+        echo '.';
+    }
 }
 echo "Ok\n";
 
@@ -110,7 +144,9 @@ foreach ($names as $value) {
     }
     echo '.';
     if ($res == 'true') {
-        $info = $name_validator->moreInfo();
+        $valid = $name_validator->getValid();
+        if (!$valid == $value[0])            throw new Exception ("Got $valid, awaiting $value[0]");
+            $info = $name_validator->moreInfo();
         $found = $info['full'];
         if ($found != $value[2]) {
             echo "$value[0] - FAIL!!! Ожидалось \"$value[2]\", получено \"$found\"\n";
@@ -123,6 +159,13 @@ foreach ($names as $value) {
             die();
         }
         echo '.';
+    } else {
+        try {
+            $name_validator->getValid();
+            throw new Exception("$value[0] - Must throw at prev line", -907);
+        } catch (Exception $e) {
+            if ($e->getCode() == -907) throw $e;
+        } 
     }
 }
 echo "Ok\n";
@@ -136,11 +179,23 @@ if ($tg->validate()) {
     echo 'FAIL!!! - Ожидалось "false", получено "true"'."\n";
     die();
 }
+
+echo '.';
+try {
+    $tg->getValid();
+    die("Must throw at prev line");
+} catch (Exception $exc) {
+
+}
 echo '.';
 
-if ($tg->validate($token)) {
+if (!$tg->validate($token)) {
     echo 'FAIL!!! - Ожидалось "true", получено "false"'."\n";
     die();
+}
+echo '.';
+if ($tg->getValid() != $token) {
+    throw new Exception("Got invalid valid bot token");
 }
 echo '.';
 $more_info = $tg->moreInfo();
@@ -161,12 +216,12 @@ echo "Проверка класса lhPhoneValidator";
 require_once __DIR__ . '/lhValidator/classes/lhPhoneValidator.php';
 
 $strings = [
-    [" +79262261868", 'true'],
-    ["89262261868   ", 'true'],
-    ["9262261868", 'true'],
-    ["(926) 226-18-68", 'true'],
-    ["+7 () 92622-6-1868", 'true'],
-    ["+7 (92622) 6-1868", 'true'],
+    [" +79262261868", 'true', "+7 (926) 226-18-68"],
+    ["89262261868   ", 'true', "+7 (926) 226-18-68"],
+    ["9262261868", 'true', "+7 (926) 226-18-68"],
+    ["(926) 226-18-68", 'true', "+7 (926) 226-18-68"],
+    ["+7 () 92622-6-1868", 'true', "+7 (926) 226-18-68"],
+    ["+7 (92622) 6-1868", 'true', "+7 (926) 226-18-68"],
     ["+7_92622-6-1868", 'false'],
     ["+7 (s231)2-6-1868", 'false'],
 ];
@@ -182,6 +237,17 @@ foreach ($strings as $value) {
     if ($result != $value[1]) {
         echo "$value[0] - FAIL!!! - Ожидалось \"$value[1]\", получено \"$result\"\n";
         die();
+    }
+    if ($result == 'true') {
+        $valid = $phone_validator->getValid();
+        if ($valid != $value[2]) throw new Exception ("$value[0] - FAIL getValid, got $valid, awaiting $value[2]");
+    } else {
+        try {
+            $phone_validator->getValid();
+            die("Must throw at prev line");
+        } catch (Exception $e) {
+            
+        }
     }
     echo '.';
 }
@@ -209,6 +275,12 @@ foreach ($strings as $value) {
         echo "$value[0] - FAIL!!! - Ожидалось \"$value[1]\", получено \"$result\"\n";
         die();
     }
+    try {
+        $fakename_validator->getValid();
+        die("Must throw at prev line");
+    } catch (Exception $exc) {
+    }
+
     echo '.';
 }
 echo "Ok\n";

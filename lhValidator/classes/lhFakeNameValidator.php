@@ -26,4 +26,7 @@ class lhFakeNameValidator extends lhAbstractValidator {
         return $this->getResult();
     }
     
+    public function getValid() {
+        throw new Exception("There is no valid fake names at all");
+    }
 }

@@ -29,4 +29,6 @@ interface lhValidatorInterface {
     // имени и т.д.
     //
     public function moreInfo();
+    
+    public function getValid();
 }

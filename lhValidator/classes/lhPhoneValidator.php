@@ -36,5 +36,12 @@ class lhPhoneValidator extends lhAbstractValidator {
         }
         return $this->getResult();
     }
+
+    public function getValid() {
+        if (!$this->validate()) {
+            throw new Exception("Invalid phone number");
+        }
+        return $this->moreInfo()['phone'];
+    }
     
 }
