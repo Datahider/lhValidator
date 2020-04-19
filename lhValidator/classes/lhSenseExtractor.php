@@ -28,9 +28,7 @@ class lhSenseExtractor extends lhAbstractValidator {
         if (isset($this->more_info['sense'])) {
             return $this->more_info['sense'];
         } 
-        if (!$this->validate()) {
-            throw new Exception("It has no sense");
-        }
+        $this->validate();
         return $this->more_info['sense'];
     }
 
