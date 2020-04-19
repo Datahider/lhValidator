@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    <category name="%GREETING%">
+        <pattern>Здравствуйте</pattern>
+        <pattern>Здрасте</pattern>
+        <pattern>Добрый день</pattern>
+        <pattern>Привет</pattern>
+        <pattern>Доброе утро</pattern>
+        <pattern>Добрый вечер</pattern>
+        <pattern>Трям</pattern>
+        <pattern>Доброго времени суток</pattern>
+        <pattern>Привет еще раз</pattern>
+        <pattern>Здравствуйте еще раз</pattern>
+        <pattern>еще раз здравствуйте</pattern>
+    </category>
+    <category name="%PETER%">
+        <pattern>Петр</pattern>
+        <pattern>Петь</pattern>
+        <pattern>Петя</pattern>
+    </category>
+    <category name="%EXCESS%">
+        <pattern>Срочно</pattern>
+        <pattern>еще вопрос</pattern>
+    </category>
+</aiml>

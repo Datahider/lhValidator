@@ -14,6 +14,17 @@ define('LH_LIB_ROOT', '/Users/user/MyData/phplib');
 require_once LH_LIB_ROOT . '/lhTestingSuite/classes/lhSelfTestingClass.php';
 require_once LH_LIB_ROOT . '/lhTestingSuite/classes/lhTest.php';
 require_once LH_LIB_ROOT . '/lhRuNames/classes/lhRuNames.php';
+require_once LH_LIB_ROOT . '/lhChatterBoxDataProviders/classes/lhAIML.php';
+require_once LH_LIB_ROOT . '/lhTextConv/lhTextConv.php';
+require_once __DIR__ . '/lhValidator/abstract/lhAbstractValidator.php';
+require_once __DIR__ . '/lhValidator/classes/lhSenseExtractor.php';
+
+date_default_timezone_set('Europe/Moscow');
+lhSelfTestingClass::$logfile = __DIR__ . '/lhValidator/self-test.log';
+
+$sv = new lhSenseExtractor();
+$sv->setMind(__DIR__ . '/lhValidator/mind_sample.xml');
+$sv->_test();
 
 echo "Проверка класса lhEmailValidator\n";
 require_once __DIR__ . '/lhValidator/classes/lhEmailValidator.php';
