@@ -12,7 +12,7 @@
  * @author Peter Datahider
  */
 require_once __DIR__ . '/../interface/lhValidatorInterface.php';
-abstract class lhAbstractValidator implements lhValidatorInterface {
+abstract class lhAbstractValidator extends lhSelfTestingClass implements lhValidatorInterface {
     protected $text;            // Сохраняет текст с прошлого вызова, далее можно вызывать без параметров.
     protected $more_info;       // Сохраняет расширенную информацию о валидации 
                                 //(что еще может сказать валидатор о валидируемой строке
