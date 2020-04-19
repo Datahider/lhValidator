@@ -57,7 +57,7 @@ class lhSenseExtractor extends lhAbstractValidator {
             foreach ($matches as $percentage=>$match) {
                 if ($match['match_level'] > $match_level) {
                     $match_level = $match['match_level'];
-                    $match_category = (string)$match[1]['name'];
+                    $match_category = $match[1];
                     $best_match_pos = $i;
                 }
                 break;
@@ -81,7 +81,10 @@ class lhSenseExtractor extends lhAbstractValidator {
 
     protected function testValidate($text) {
         $this->validate($text);
-        return [$this->getValid(), $this->more_info['prefixes']];
+        foreach ($this->more_info['prefixes'] as $prefix) {
+            $prefixes[] = [ 'text' => $prefix['text'], 'category' => (string)$prefix['category']['name']];
+        }
+        return [$this->getValid(), $prefixes];
     }
 
     protected function _test_data() {
