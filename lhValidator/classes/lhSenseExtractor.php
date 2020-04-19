@@ -81,6 +81,7 @@ class lhSenseExtractor extends lhAbstractValidator {
 
     protected function testValidate($text) {
         $this->validate($text);
+        $prefixes = [];
         foreach ($this->more_info['prefixes'] as $prefix) {
             $prefixes[] = [ 'text' => $prefix['text'], 'category' => (string)$prefix['category']['name']];
         }
