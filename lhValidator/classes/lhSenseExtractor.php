@@ -51,7 +51,7 @@ class lhSenseExtractor extends lhAbstractValidator {
         $match_level = -1;
         $best_match_pos = 0;
         for($i=$len; $i>0; $i--) {
-            $matches = $this->aiml->bestMatches(mb_substr($text, 0, $i), '', 80);
+            $matches = $this->aiml->bestMatches(mb_substr($text, 0, $i), '', 90);
             foreach ($matches as $percentage=>$match) {
                 if ($match['match_level'] > $match_level) {
                     $match_level = $match['match_level'];
@@ -67,9 +67,14 @@ class lhSenseExtractor extends lhAbstractValidator {
             $this->more_info['sense'] = mb_strtoupper(mb_substr($raw_sense, 0, 1)). mb_substr($raw_sense, 1);
             return;
         } else {
+            $prefix_text = preg_replace("/(^[^a-zA-ZА-Яа-я]+|[^a-zA-ZА-Яа-я]+$)/u", '', mb_substr($text, 0, $best_match_pos));
+            $this->log('$match_level='.$match_level, 20);
+            $this->log('$prefix_text='.$prefix_text, 20);
+            $this->log('$match_category:', 20);
+            $this->log($match_category, 20);
             $this->more_info['prefixes'][] = [
                 'category' => $match_category,
-                'text' => preg_replace("/(^[^a-zA-ZА-Яа-я]+|[^a-zA-ZА-Яа-я]+$)/u", '', mb_substr($text, 0, $best_match_pos))
+                'text' => $prefix_text
             ];
             $this->recursiveValidation(mb_substr($text, $best_match_pos));
             return;
@@ -166,6 +171,7 @@ class lhSenseExtractor extends lhAbstractValidator {
                 ["Добрый день!)прошу установить удаленку на компьютер) удаленк", ["Прошу установить удаленку на компьютер) удаленк", [
                     [ 'category' => '%GREETING%', 'text' => "Добрый день" ],
                 ]]],
+                ["Это рассылка типа сделанного заказа.", ["Это рассылка типа сделанного заказа.", []]],
             ]
         ];
     }
