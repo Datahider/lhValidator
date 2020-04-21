@@ -47,6 +47,9 @@ class lhSenseExtractor extends lhAbstractValidator {
     }
 
     private function recursiveValidation($text) {
+        $this->log(__CLASS__.'->'.__FUNCTION__);
+        $this->log("\$text=". $text, 15);
+        $text = preg_replace("/(^[;:?.,!\s]+)/u", '', $text);
         $len = mb_strlen($text);
         $match_level = -1;
         $best_match_pos = 0;

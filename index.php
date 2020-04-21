@@ -1,5 +1,5 @@
 <?php
-
+define('LHSENSEEXTRACTOR_DEBUG_LEVEL', 0);
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -237,6 +237,7 @@ $strings = [
     ["+7 (92622) 6-1868", 'true', "+7 (926) 226-18-68"],
     ["+7_92622-6-1868", 'false'],
     ["+7 (s231)2-6-1868", 'false'],
+    ["380954250542", 'true', "+380 (95) 425-05-42"],
 ];
 
 foreach ($strings as $value) {
