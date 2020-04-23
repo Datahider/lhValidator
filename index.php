@@ -18,10 +18,16 @@ require_once LH_LIB_ROOT . '/lhChatterBoxDataProviders/classes/lhAIML.php';
 require_once LH_LIB_ROOT . '/lhTextConv/lhTextConv.php';
 require_once __DIR__ . '/lhValidator/abstract/lhAbstractValidator.php';
 require_once __DIR__ . '/lhValidator/classes/lhSenseExtractor.php';
+require_once __DIR__ . '/lhValidator/classes/lhXMLEquality.php';
 
 date_default_timezone_set('Europe/Moscow');
 lhSelfTestingClass::$logfile = __DIR__ . '/lhValidator/self-test.log';
 
+echo "Тестирование lhXMLEquality\n";
+$x = new lhXMLEquality(new SimpleXMLElement('<root></root>'));
+$x->_test();
+
+echo "Тестирование lhSenceExtractor\n";
 $sv = new lhSenseExtractor();
 $sv->setMind(__DIR__ . '/lhValidator/mind_sample.xml');
 $sv->_test();

@@ -33,8 +33,12 @@ abstract class lhAbstractValidator extends lhSelfTestingClass implements lhValid
     }
     
     protected function getResult() {
-        return $this->more_info['result'];
+        if (isset($this->more_info['result'])) {
+            return $this->more_info['result'];
+        }
+        return null;
     }
+    
     public function moreInfo() {
         return $this->more_info;
     }
