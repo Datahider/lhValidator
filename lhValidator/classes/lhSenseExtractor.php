@@ -50,7 +50,7 @@ class lhSenseExtractor extends lhAbstractValidator {
         $this->log(__CLASS__.'->'.__FUNCTION__);
         $this->log("\$text=". $text, 15);
         $text = preg_replace("/(^[;:?.,!\s]+)/u", '', $text);
-        $len = mb_strlen($text);
+        $len = mb_strlen(substr($text, 0, 200));
         $match_level = -1;
         $best_match_pos = 0;
         for($i=$len; $i>0; $i--) {
