@@ -53,8 +53,12 @@ class lhSenseExtractor extends lhAbstractValidator {
         $len = mb_strlen(substr($text, 0, 200));
         $match_level = -1;
         $best_match_pos = 0;
+        
+        $xml = $this->aiml->getAiml();
+        $min_hit_ratio = isset($xml['minhit']) ? $xml['minhit'] : 90;
+        
         for($i=$len; $i>0; $i--) {
-            $matches = $this->aiml->bestMatches(mb_substr($text, 0, $i), '', 90);
+            $matches = $this->aiml->bestMatches(mb_substr($text, 0, $i), '', $min_hit_ratio);
             foreach ($matches as $percentage=>$match) {
                 if ($match['match_level'] > $match_level) {
                     $match_level = $match['match_level'];
