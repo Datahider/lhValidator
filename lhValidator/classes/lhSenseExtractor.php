@@ -13,7 +13,10 @@
  */
 class lhSenseExtractor extends lhAbstractValidator {
     const DEBUG_LEVEL = 0;
+    const MINHIT = 90;
+    
     private $aiml;
+    private $minhit;
 
 
     public function __construct($text = null) {
@@ -22,6 +25,8 @@ class lhSenseExtractor extends lhAbstractValidator {
     
     public function setMind($file_or_xml) {
         $this->aiml = new lhAIML($file_or_xml);
+        $xml = $this->aiml->getAiml();
+        $this->minhit = isset($xml['minhit']) ? $xml['minhit'] : self::MINHIT;
     }
 
     public function getValid() {
@@ -44,6 +49,20 @@ class lhSenseExtractor extends lhAbstractValidator {
         
         $this->recursiveValidation($text);
         return $this->more_info['sense'] != '';
+    }
+    
+    private function lexemValidation($text) {
+        $senteces = lhTextConv::splitSentences($text);
+        if (count($senteces)) {
+            $lexems = lhTextConv::split(array_shift($senteces));
+            $this->recursiveLexemValidation($lexems);
+        }
+    }
+
+    private function recursiveLexemValidation($lexem_array) {
+        $match_level = -1;
+        $best_match_pos = 0;
+        $lexems = count($lexem_array);
     }
 
     private function recursiveValidation($text) {
@@ -74,7 +93,7 @@ class lhSenseExtractor extends lhAbstractValidator {
             $this->more_info['sense'] = mb_strtoupper(mb_substr($raw_sense, 0, 1)). mb_substr($raw_sense, 1);
             return;
         } else {
-            $prefix_text = preg_replace("/(^[^a-zA-ZА-Яа-я]+|[^a-zA-ZА-Яа-я]+$)/u", '', mb_substr($text, 0, $best_match_pos));
+            $prefix_text = preg_replace("/(^[^a-zA-ZА-Яа-я0-9]+|[^a-zA-ZА-Яа-я0-9]+$)/u", '', mb_substr($text, 0, $best_match_pos));
             $this->log('$match_level='.$match_level, 20);
             $this->log('$prefix_text='.$prefix_text, 20);
             $this->log('$match_category:', 20);
@@ -112,6 +131,9 @@ class lhSenseExtractor extends lhAbstractValidator {
                     [ 'category' => '%GREETING%', 'text' => "Добрый день" ],
                 ]]],
                 ["У меня ничего не работает", ["У меня ничего не работает", []]],
+                ["Приветствую! Все сломалось", ["Все сломалось", [
+                    [ 'category' => '%GREETING%', 'text' => "Приветствую" ],
+                ]]],
                 ["Привет! Все сломалось", ["Все сломалось", [
                     [ 'category' => '%GREETING%', 'text' => "Привет" ],
                 ]]],
@@ -177,6 +199,9 @@ class lhSenseExtractor extends lhAbstractValidator {
                 ]]],
                 ["Добрый день!)прошу установить удаленку на компьютер) удаленк", ["Прошу установить удаленку на компьютер) удаленк", [
                     [ 'category' => '%GREETING%', 'text' => "Добрый день" ],
+                ]]],
+                ["Rdp30", ["", [
+                    [ 'category' => '%PROMO%', 'text' => "Rdp30" ],
                 ]]],
                 ["Это рассылка типа сделанного заказа.", ["Это рассылка типа сделанного заказа.", []]],
             ]
