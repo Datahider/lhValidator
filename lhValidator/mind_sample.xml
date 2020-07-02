@@ -5,6 +5,7 @@
         <pattern>Здрасте</pattern>
         <pattern>Добрый день</pattern>
         <pattern>Привет</pattern>
+        <pattern>Приветствую</pattern>
         <pattern>Доброе утро</pattern>
         <pattern>Добрый вечер</pattern>
         <pattern>Трям</pattern>
@@ -22,5 +23,8 @@
     <category name="%EXCESS%">
         <pattern>Срочно</pattern>
         <pattern>еще вопрос</pattern>
+    </category>
+    <category name="%PROMO%">
+        <pattern>RDP30</pattern>
     </category>
 </aiml>
