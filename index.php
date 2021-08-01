@@ -10,7 +10,7 @@ require_once 'secrets.php';
 //mb_internal_encoding("UTF-8");
 echo "Тестирование lhValidator\n";
 
-define('LH_LIB_ROOT', '/Users/user/MyData/phplib');
+define('LH_LIB_ROOT', '/Users/drweb_000/Desktop/MyData/phplib');
 require_once LH_LIB_ROOT . '/lhTestingSuite/classes/lhSelfTestingClass.php';
 require_once LH_LIB_ROOT . '/lhTestingSuite/classes/lhTest.php';
 require_once LH_LIB_ROOT . '/lhRuNames/classes/lhRuNames.php';
