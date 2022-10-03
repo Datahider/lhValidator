@@ -30,7 +30,9 @@ class lhPhoneValidator extends lhAbstractValidator {
             $phone = preg_replace("/^8/", '+7', $phone);
             $phone = preg_replace("/^(\d{10})$/", '+7$1', $phone);
             $phone = preg_replace("/^380/", '+380', $phone);
+            $phone = preg_replace("/^44/", '+44', $phone);
             $phone = preg_replace("/\+380(\d{2})(\d{3})(\d{2})(\d{2})/", '+380 ($1) $2-$3-$4', $phone);
+            $phone = preg_replace("/\+44(\d{3})(\d{3})(\d{2})(\d{2})/", '+44 ($1) $2-$3-$4', $phone);
             $this->more_info['phone'] = preg_replace("/^\+7(\d{3})(\d{3})(\d{2})(\d{2})/", '+7 ($1) $2-$3-$4', $phone);
             $this->setResult(true);
         } else {
